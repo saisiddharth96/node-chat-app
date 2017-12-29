@@ -20,11 +20,11 @@ io.on("connection", socket => {
   //   receivedAt : "hh:mm:ss",
   // });
 
-  socket.emit('newMessage',{
-    from : "server message",
-    text : "Common message to all my clients",
-    cretaedAt : "Right now ass!"
-  });
+  // socket.emit('newMessage',{
+  //   from : "server message",
+  //   text : "Common message to all my clients",
+  //   cretaedAt : "Right now ass!"
+  // });
 
   // socket.on('createEmail', (newEmail)=>{
   //   console.log(`Create Email :- ${JSON.stringify (newEmail,undefined,2)}`);
@@ -32,6 +32,11 @@ io.on("connection", socket => {
 
   socket.on('createMessage', (message)=>{
     console.log(`New message from "${message.from}" with text "${message.text}"`);
+    io.emit('newMessage',{
+      from : message.from,
+      text : message.text,
+      cretaedAt : new Date().getTime()
+    });
   });
 
   socket.on("disconnect", socket => {
