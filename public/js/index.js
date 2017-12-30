@@ -23,15 +23,45 @@ socket.on("disconnect", function() {
 
 //Listener for new Event i.e newEmail event, this listenes to the exact
 //same event which gets emitted from server.js
-socket.on("newEmail", function(email) {
-  console.log(JSON.stringify(email, undefined, 2));
+// socket.on("newEmail", function(email) {
+//   console.log(JSON.stringify(email, undefined, 2));
+// });
+
+// socket.on("newMessage", function(message) {
+//   console.log(message);
+// });
+
+socket.on('newMessage', function (message) {
+  console.log('newMessage', message);
+  var li = jQuery('<li></li>');
+  li.text(`${message.from}: ${message.text}`);
+
+  jQuery('#messages').append(li);
 });
 
-socket.on("newMessage", function(message) {
-  console.log(JSON.stringify(message, undefined, 2));
-});
+jQuery('#message-form').on('submit', function (e) {
+  e.preventDefault();
 
+  socket.emit('createMessage', {
+    from: 'User',
+    text: jQuery('[name=Message]').val()
+  }, function () {
 
-socket.on("newMasterMessage", function(message) {
-    console.log(JSON.stringify(message, undefined, 2));
   });
+});
+
+// socket.on("newMasterMessage", function(message) {
+//     console.log(message);
+//     var li = jQuery('<li></li>');
+//     li.text(`${message.from} : ${message.text}`);
+
+//     jQuery('#messages').append(li);
+// });
+
+// socket.emit('createMessage',{
+//     from : "Richa",
+//     text : "Hey Sid!"
+// }, function(data){
+//     console.log('Got It!', data);
+// });
+
