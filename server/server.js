@@ -30,13 +30,14 @@ io.on("connection", (socket) => {
 
   socket.emit('newMessage',generateMessage("Sabka Baap ADMIN", "Baap, Bapp hota hai!"));
 
-  socket.broadcast.emit('newMessage',generateMessage("Naya Bandha","Hello bhai log!"));
+  socket.broadcast.emit('newMessage',generateMessage("ADMIN","Naya bandha aaya yaro!"));
 
-  socket.on('createMessage', (newMessage)=>{
-    console.log(JSON.stringify(newMessage,undefined,2));
+  socket.on('createMessage', (message,callback)=>{
+    console.log(message);
     //io.emit creates and sends an event to every connection
 
-    io.emit('newMasterMessage',generateMessage(newMessage.from, newMessage.text));
+    io.emit('newMessage',generateMessage(message.from, message.text));
+    callback("This is from the server");
     
     //socket,broadcast.emit is a method which sends off the data specified to 
     //every client except the one which is sending off the message
