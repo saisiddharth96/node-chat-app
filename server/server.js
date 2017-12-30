@@ -3,6 +3,7 @@ const http = require("http");
 const express = require("express");
 const socketIO = require("socket.io");
 
+const {generateMessage} = require('./utils/message.js');
 const publicPath = path.join(__dirname, "../public");
 var port = process.env.PORT || 3000;
 var app = express();
@@ -27,24 +28,15 @@ io.on("connection", (socket) => {
   //   text: "Test message 123 123" 
   // });
 
-  socket.emit('newMessage',{
-    from : "Sabka Baap!",
-    text : "Hello BC!"
-  });
+  socket.emit('newMessage',generateMessage("Sabka Baap ADMIN", "Baap, Bapp hota hai!"));
 
-  socket.broadcast.emit('newMessage',{
-    from : "Naya Bandha!",
-    text : "Aaya re apun!"
-  });
+  socket.broadcast.emit('newMessage',generateMessage("Naya Bandha","Hello bhai log!"));
 
   socket.on('createMessage', (newMessage)=>{
     console.log(JSON.stringify(newMessage,undefined,2));
     //io.emit creates and sends an event to every connection
 
-    io.emit('newMasterMessage',{
-      from : newMessage.from,
-      text : newMessage.text
-    });
+    io.emit('newMasterMessage',generateMessage(newMessage.from, newMessage.text));
     
     //socket,broadcast.emit is a method which sends off the data specified to 
     //every client except the one which is sending off the message
