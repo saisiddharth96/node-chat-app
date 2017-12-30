@@ -32,6 +32,7 @@ io.on("connection", socket => {
 
   socket.on('createMessage', (message)=>{
     console.log(`New message from "${message.from}" with text "${message.text}"`);
+    console.log(message);
     io.emit('newMessage',{
       from : message.from,
       text : message.text,
