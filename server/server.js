@@ -37,7 +37,7 @@ io.on("connection", (socket) => {
     //io.emit creates and sends an event to every connection
 
     io.emit('newMessage',generateMessage(message.from, message.text));
-    callback("This is from the server");
+    callback();
     
     //socket,broadcast.emit is a method which sends off the data specified to 
     //every client except the one which is sending off the message
